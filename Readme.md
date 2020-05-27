@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Егор Макаров](https://up.htmlacademy.ru/javascript/20/user/870737).
-* Наставник: `Неизвестно`.
+* Наставник: `Владимир Чебаков`.
 
 ---
 
