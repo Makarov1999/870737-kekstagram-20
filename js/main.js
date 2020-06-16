@@ -41,6 +41,7 @@ var effectLevelValue = document.querySelector('.effect-level__value');
 var effectChooseRadios = document.querySelectorAll('.effects__radio');
 var hashtagsInput = document.querySelector('.text__hashtags');
 var bigPictureCloseButton = document.querySelector('.big-picture__cancel');
+var commentInput = document.querySelector('.text__description');
 
 
 var getRandElementOfArray = function (array) {
@@ -139,13 +140,6 @@ var pictureHandler = function (pictureElement, photo) {
   });
 };
 
-var pictureHandlerOnKey = function (pictureElement) {
-  pictureElement.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      openBigPicture();
-    }
-  });
-};
 
 var onFormEscPress = function (evt) {
   if (evt.key === 'Escape') {
@@ -168,7 +162,7 @@ var openBigPicture = function () {
 
 var closeBigPicture = function () {
   bigPictureElement.classList.add('hidden');
-  var commentsToDel = commentsList.children;
+  var commentsToDel = document.querySelectorAll('.social__comment');
   for (var i = 0; i < commentsToDel.length; i++) {
     commentsToDel[i].remove();
   }
@@ -348,7 +342,6 @@ renderPhotos(photos);
 var pictureElements = document.querySelectorAll('.picture');
 for (var i = 0; i < pictureElements.length; i++) {
   pictureHandler(pictureElements[i], photos[i]);
-  pictureHandlerOnKey(pictureElements[i]);
 }
 
 bigPictureCloseButton.addEventListener('click', function () {
@@ -358,6 +351,12 @@ bigPictureCloseButton.addEventListener('click', function () {
 bigPictureCloseButton.addEventListener('keydown', function (evt) {
   if (evt.key === 'Enter') {
     closeBigPicture();
+  }
+});
+
+commentInput.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
   }
 });
 
