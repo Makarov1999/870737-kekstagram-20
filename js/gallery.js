@@ -3,7 +3,7 @@
 (function () {
 
   var socialCommentCount = document.querySelector('.social__comment-count');
-  var commentsLoader = document.querySelector('.comments-loader')
+  var commentsLoader = document.querySelector('.comments-loader');
   var picturesList = document.querySelector('.pictures');
 
   var renderPhotos = function (photos) {
