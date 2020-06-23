@@ -13,8 +13,10 @@
   var previewImage = document.querySelector('.img-upload__preview img');
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelValue = document.querySelector('.effect-level__value');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectChooseRadios = document.querySelectorAll('.effects__radio');
   var hashtagsInput = document.querySelector('.text__hashtags');
+  var effectLevelLine = document.querySelector('.effect-level__line');
 
 
   var openForm = function () {
@@ -111,7 +113,38 @@
     }
   });
 
-  effectLevelPin.addEventListener('mouseup', function () {
+  effectLevelPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startPosition = evt.clientX;
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = startPosition - moveEvt.clientX;
+      startPosition = moveEvt.clientX;
+      if (effectLevelPin.offsetLeft < 0) {
+        effectLevelPin.style.left = '0px';
+      } else if (effectLevelPin.offsetLeft > effectLevelLine.offsetWidth) {
+        effectLevelPin.style.left = effectLevelLine.offsetWidth + 'px';
+      } else {
+        effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
+        effectLevelDepth.style.width = effectLevelPin.style.left;
+
+      }
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      effectLevelValue.value = String(Math.round((effectLevelDepth.offsetWidth / effectLevelLine.offsetWidth) * 100));
+      changePictureEffect();
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+  });
+
+  var changePictureEffect = function () {
     var chosenEffect = '';
     for (var i = 0; i < effectChooseRadios.length; i++) {
       if (effectChooseRadios[i].checked) {
@@ -169,8 +202,8 @@
         previewImage.className = '';
         previewImage.style.filter = '';
     }
+  };
 
-  });
 
   hashtagsInput.addEventListener('change', function () {
 
