@@ -13,6 +13,10 @@
       fragment.appendChild(photo);
     }
     picturesList.appendChild(fragment);
+    var pictureElements = document.querySelectorAll('.picture');
+    for (var i = 0; i < pictureElements.length; i++) {
+      window.preview.pictureHandler(pictureElements[i], photos[i]);
+    }
   };
 
   socialCommentCount.classList.add('hidden');
