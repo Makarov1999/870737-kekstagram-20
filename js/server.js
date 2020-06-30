@@ -26,7 +26,33 @@
     xhr.open('GET', url);
     xhr.send();
   };
+
+  var savePhoto = function (data, onSuccess, onError) {
+    var URL = 'https://javascript.pages.academy/kekstagram';
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === 200) {
+        onSuccess();
+      } else {
+        onError();
+      }
+
+
+    });
+
+    xhr.addEventListener('error', function () {
+      onError();
+    });
+
+    xhr.open('POST', URL);
+    xhr.send(data);
+  };
+
+
   window.server = {
-    load: loadPhotos
+    load: loadPhotos,
+    save: savePhoto
   };
 })();
