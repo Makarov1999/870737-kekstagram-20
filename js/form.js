@@ -17,6 +17,20 @@
   var effectChooseRadios = document.querySelectorAll('.effects__radio');
   var hashtagsInput = document.querySelector('.text__hashtags');
   var effectLevelLine = document.querySelector('.effect-level__line');
+  var DEFAULT_EFFECT_VALUE = '20';
+
+  var resetForm = function () {
+    var originalRadio = getOriginalEffect(effectChooseRadios);
+    originalRadio.checked = true;
+    scaleValue.value = '100%';
+    previewImage.style.transform = '';
+    effectLevelValue.value = DEFAULT_EFFECT_VALUE;
+    effectLevelPin.style.left = '';
+    effectLevelDepth.style.width = '';
+    hashtagsInput.value = '';
+    commentInput.value = '';
+    uploadFileField.value = '';
+  };
 
 
   var openForm = function () {
@@ -29,6 +43,18 @@
     editPhotoForm.classList.add('hidden');
     bodyOfPage.classList.remove('modal-open');
     document.removeEventListener('keydown', onFormEscPress);
+    resetForm();
+
+  };
+
+  var getOriginalEffect = function (radios) {
+    var originalEffect = {};
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].value === 'none') {
+        originalEffect = radios[i];
+      }
+    }
+    return originalEffect;
   };
 
   var isHashtagsTooLong = function (hashtags) {
@@ -227,5 +253,9 @@
       evt.stopPropagation();
     }
   });
+
+  window.form = {
+    close: closeForm
+  };
 
 })();
