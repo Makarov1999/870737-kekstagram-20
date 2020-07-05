@@ -16,7 +16,6 @@
 
 
   var pictureHandler = function (pictureElement, photo) {
-    console.log(pictureElement);
     pictureElement.addEventListener('click', function () {
       var comments = photo.comments;
       var fragment = document.createDocumentFragment();
