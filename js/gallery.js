@@ -14,8 +14,9 @@
     }
     picturesList.appendChild(fragment);
     var pictureElements = document.querySelectorAll('.picture');
+    console.log(pictureElements);
     for (var j = 0; j < pictureElements.length; j++) {
-      window.preview.pictureHandler(pictureElements[i], photos[i]);
+      window.preview.pictureHandler(pictureElements[j], photos[j]);
     }
   };
 
