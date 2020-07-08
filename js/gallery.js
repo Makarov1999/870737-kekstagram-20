@@ -10,6 +10,23 @@
   var filterDiscussedButton = document.querySelector('#filter-discussed');
   var filterButtons = document.querySelectorAll('.img-filters__button');
   var loadedPhotos = [];
+  var DEBOUNCE_INTERVAL = 500;
+
+
+  var debounceFilter = function (cb) {
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
 
   var resetFilterButtons = function () {
     for (var i = 0; i < filterButtons.length; i++) {
@@ -49,6 +66,7 @@
 
   socialCommentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
+
 
   var showDefaultPhotos = function () {
     clearPhotosList();
@@ -93,16 +111,20 @@
       if (!filterDefaultButton.classList.contains('img-filters__button--active')) {
         resetFilterButtons();
         filterDefaultButton.classList.add('img-filters__button--active');
-        showDefaultPhotos();
+        debounceDefaultPhotos();
       }
     });
+
+    var debounceDefaultPhotos = debounceFilter(showDefaultPhotos);
+    var debounceRandomPhotos = debounceFilter(showRandomPhotos);
+    var debounceDiscussedPhotos = debounceFilter(showDiscussedPhotos);
 
     filterDefaultButton.addEventListener('keydown', function (evt) {
       if (evt.key === 'Enter') {
         if (!filterDefaultButton.classList.contains('img-filters__button--active')) {
           resetFilterButtons();
           filterDefaultButton.classList.add('img-filters__button--active');
-          showDefaultPhotos(loadedPhotos);
+          debounceDefaultPhotos();
         }
       }
     });
@@ -111,7 +133,8 @@
       if (!filterRandomButton.classList.contains('img-filters__button--active')) {
         resetFilterButtons();
         filterRandomButton.classList.add('img-filters__button--active');
-        showRandomPhotos(loadedPhotos, 10);
+        debounceRandomPhotos(loadedPhotos, 10);
+
       }
     });
 
@@ -120,7 +143,7 @@
         if (!filterRandomButton.classList.contains('img-filters__button--active')) {
           resetFilterButtons();
           filterRandomButton.classList.add('img-filters__button--active');
-          showRandomPhotos(loadedPhotos, 10);
+          debounceRandomPhotos(loadedPhotos, 10);
         }
       }
     });
@@ -129,7 +152,7 @@
       if (!filterDiscussedButton.classList.contains('img-filters__button--active')) {
         resetFilterButtons();
         filterDiscussedButton.classList.add('img-filters__button--active');
-        showDiscussedPhotos(loadedPhotos);
+        debounceDiscussedPhotos(loadedPhotos);
       }
     });
 
@@ -138,7 +161,7 @@
         if (!filterDiscussedButton.classList.contains('img-filters__button--active')) {
           resetFilterButtons();
           filterDiscussedButton.classList.add('img-filters__button--active');
-          showDiscussedPhotos(loadedPhotos);
+          debounceDiscussedPhotos(loadedPhotos);
         }
       }
     });
