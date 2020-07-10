@@ -120,6 +120,8 @@
     }
   };
 
+  var debouncePhotoFilter = debounceFilter(setFilters);
+
   var onSuccessPhotoLoad = function (photos) {
     loadedPhotos = photos;
     renderPhotos(photos);
@@ -131,7 +133,7 @@
       if (!evt.target.classList.contains('img-filters__button--active')) {
         resetFilterButtons();
         evt.target.classList.add('img-filters__button--active');
-        debounceFilter(setFilters(filterId));
+        debouncePhotoFilter(filterId);
       }
     });
 
@@ -141,7 +143,7 @@
         if (!evt.target.classList.contains('img-filters__button--active')) {
           resetFilterButtons();
           evt.target.classList.add('img-filters__button--active');
-          debounceFilter(setFilters(filterId));
+          debouncePhotoFilter(filterId);
         }
       }
     });
