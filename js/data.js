@@ -75,7 +75,8 @@
   };
 
   window.data = {
-    generateRandomPhotos: generateRandomPhotos
+    generateRandomPhotos: generateRandomPhotos,
+    getRandElementOfArray: getRandElementOfArray
   };
 
 })();

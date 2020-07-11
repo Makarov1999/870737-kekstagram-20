@@ -52,6 +52,7 @@
     });
     document.addEventListener('click', onSuccessMessageDocPress);
     document.addEventListener('keydown', onSuccesMessageEscPress);
+
   };
 
   var onErrorSend = function () {
