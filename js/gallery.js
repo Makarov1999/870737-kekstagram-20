@@ -2,8 +2,7 @@
 
 (function () {
 
-  var socialCommentCount = document.querySelector('.social__comment-count');
-  var commentsLoader = document.querySelector('.comments-loader');
+
   var picturesList = document.querySelector('.pictures');
   var filterButtons = document.querySelectorAll('.img-filters__button');
   var filtersButtonContainer = document.querySelector('.img-filters__form');
@@ -61,9 +60,6 @@
       window.preview.pictureHandler(pictureElements[j], photos[j]);
     }
   };
-
-  socialCommentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
 
 
   var showDefaultPhotos = function () {
