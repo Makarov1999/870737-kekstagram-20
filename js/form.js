@@ -17,7 +17,9 @@
   var effectChooseRadios = document.querySelectorAll('.effects__radio');
   var hashtagsInput = document.querySelector('.text__hashtags');
   var effectLevelLine = document.querySelector('.effect-level__line');
-  var DEFAULT_EFFECT_VALUE = '20';
+  var effectLevelSlider = document.querySelector('.effect-level');
+  var effectsList = document.querySelector('.effects__list');
+  var DEFAULT_EFFECT_VALUE = '100';
   var IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
 
   var resetForm = function () {
@@ -262,6 +264,21 @@
     } else {
       hashtagsInput.setCustomValidity('');
     }
+  });
+
+  effectsList.addEventListener('change', function (evt) {
+    if (evt.target.value === 'none') {
+      effectLevelSlider.classList.add('hidden');
+    } else {
+      if (effectLevelSlider.classList.contains('hidden')) {
+        effectLevelSlider.classList.remove('hidden');
+      }
+    }
+    effectLevelValue.value = DEFAULT_EFFECT_VALUE;
+    effectLevelPin.style.left = '';
+    effectLevelDepth.style.width = '';
+    previewImage.className = '';
+    previewImage.style.filter = '';
   });
 
   hashtagsInput.addEventListener('keydown', function (evt) {
