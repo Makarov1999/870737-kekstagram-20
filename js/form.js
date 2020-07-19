@@ -18,6 +18,7 @@
   var hashtagsInput = document.querySelector('.text__hashtags');
   var effectLevelLine = document.querySelector('.effect-level__line');
   var DEFAULT_EFFECT_VALUE = '20';
+  var IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
 
   var resetForm = function () {
     var originalRadio = getOriginalEffect(effectChooseRadios);
@@ -95,6 +96,21 @@
   };
 
   uploadFileField.addEventListener('change', function () {
+    var imageFile = uploadFileField.files[0];
+    var imageFileName = imageFile.name.toLowerCase();
+
+    var isImageFileMatch = IMAGE_FILE_EXTENSIONS.some(function (imageExtension) {
+      return imageFileName.endsWith(imageExtension);
+    });
+
+    if (isImageFileMatch) {
+      var imageFileReader = new FileReader();
+      imageFileReader.addEventListener('load', function () {
+        previewImage.src = imageFileReader.result;
+      });
+      imageFileReader.readAsDataURL(imageFile);
+    }
+
     openForm();
   });
 
