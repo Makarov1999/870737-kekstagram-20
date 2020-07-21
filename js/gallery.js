@@ -1,14 +1,12 @@
 'use strict';
 
 (function () {
-
-
+  var DEBOUNCE_INTERVAL = 500;
+  var PHOTOS_COUNT = 10;
   var picturesList = document.querySelector('.pictures');
   var filterButtons = document.querySelectorAll('.img-filters__button');
   var filtersButtonContainer = document.querySelector('.img-filters__form');
   var loadedPhotos = [];
-  var DEBOUNCE_INTERVAL = 500;
-
 
   var debounceFilter = function (cb) {
     var lastTimeout = null;
@@ -34,13 +32,6 @@
     }
   };
 
-  var clearPhotosList = function () {
-    var pictures = document.querySelectorAll('.picture');
-    for (var i = 0; i < pictures.length; i++) {
-      pictures[i].remove();
-    }
-  };
-
   var renderPhotos = function (photos) {
     var pictures = document.querySelectorAll('.picture');
     if (pictures) {
@@ -63,12 +54,10 @@
 
 
   var showDefaultPhotos = function () {
-    clearPhotosList();
     renderPhotos(loadedPhotos);
   };
 
   var showRandomPhotos = function (photos, photosCount) {
-    clearPhotosList();
     var photosCopy = photos.slice();
     var resultPhotos = [];
     for (var i = 0; i < photosCount; i++) {
@@ -80,7 +69,6 @@
   };
 
   var showDiscussedPhotos = function (photos) {
-    clearPhotosList();
     renderPhotos(
         photos.slice().sort(function (left, right) {
           if (left.comments.length > right.comments.length) {
@@ -96,14 +84,13 @@
   };
 
   var setFilters = function (filterButtonId) {
-    var photosCount = 10;
     switch (filterButtonId) {
       case 'filter-default':
         showDefaultPhotos();
         break;
 
       case 'filter-random':
-        showRandomPhotos(loadedPhotos, photosCount);
+        showRandomPhotos(loadedPhotos, PHOTOS_COUNT);
 
         break;
 
@@ -118,6 +105,14 @@
 
   var debouncePhotoFilter = debounceFilter(setFilters);
 
+  var applyPhotoFilter = function (photoFilter, idOfFilter) {
+    if (!photoFilter.classList.contains('img-filters__button--active')) {
+      resetFilterButtons();
+      photoFilter.classList.add('img-filters__button--active');
+      debouncePhotoFilter(idOfFilter);
+    }
+  };
+
   var onSuccessPhotoLoad = function (photos) {
     loadedPhotos = photos;
     renderPhotos(photos);
@@ -126,21 +121,13 @@
 
     filtersButtonContainer.addEventListener('click', function (evt) {
       var filterId = evt.target.id;
-      if (!evt.target.classList.contains('img-filters__button--active')) {
-        resetFilterButtons();
-        evt.target.classList.add('img-filters__button--active');
-        debouncePhotoFilter(filterId);
-      }
+      applyPhotoFilter(evt.target, filterId);
     });
 
     filtersButtonContainer.addEventListener('keydown', function (evt) {
       var filterId = evt.target.id;
       if (evt.key === 'Enter') {
-        if (!evt.target.classList.contains('img-filters__button--active')) {
-          resetFilterButtons();
-          evt.target.classList.add('img-filters__button--active');
-          debouncePhotoFilter(filterId);
-        }
+        applyPhotoFilter(evt.target, filterId);
       }
     });
   };

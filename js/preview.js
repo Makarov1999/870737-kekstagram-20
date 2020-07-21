@@ -2,11 +2,11 @@
 
 (function () {
   var bigPictureElement = document.querySelector('.big-picture');
-  var bigPictureCloseButton = document.querySelector('.big-picture__cancel');
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
-  var commentsList = document.querySelector('.social__comments');
-  var socialCommentCount = document.querySelector('.social__comment-count');
-  var commentsLoader = document.querySelector('.comments-loader');
+  var bigPictureCloseButton = bigPictureElement.querySelector('.big-picture__cancel');
+  var commentsList = bigPictureElement.querySelector('.social__comments');
+  var socialCommentCount = bigPictureElement.querySelector('.social__comment-count');
+  var commentsLoader = bigPictureElement.querySelector('.comments-loader');
   var commentsLoaded = 0;
   var comments = [];
 

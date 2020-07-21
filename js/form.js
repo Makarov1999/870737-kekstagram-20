@@ -1,26 +1,29 @@
 'use strict';
 
 (function () {
-
+  var DEFAULT_EFFECT_VALUE = '100';
+  var IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
+  var IMPROVE_SCALE_STEP = 0.25;
+  var REDUCE_SCALE_STEP = -0.25;
+  var MAX_SCALE_VALUE = '100%';
+  var MIN_SCALE_VALUE = '25%';
   var editPhotoForm = document.querySelector('.img-upload__overlay');
   var bodyOfPage = document.querySelector('body');
   var uploadFileField = document.querySelector('#upload-file');
-  var editFormCloseButton = document.querySelector('.img-upload__cancel');
-  var commentInput = document.querySelector('.text__description');
-  var reduceScaleButton = document.querySelector('.scale__control--smaller');
-  var improveScaleButton = document.querySelector('.scale__control--bigger');
-  var scaleValue = document.querySelector('.scale__control--value');
-  var previewImage = document.querySelector('.img-upload__preview img');
-  var effectLevelPin = document.querySelector('.effect-level__pin');
-  var effectLevelValue = document.querySelector('.effect-level__value');
-  var effectLevelDepth = document.querySelector('.effect-level__depth');
-  var effectChooseRadios = document.querySelectorAll('.effects__radio');
-  var hashtagsInput = document.querySelector('.text__hashtags');
-  var effectLevelLine = document.querySelector('.effect-level__line');
-  var effectLevelSlider = document.querySelector('.effect-level');
-  var effectsList = document.querySelector('.effects__list');
-  var DEFAULT_EFFECT_VALUE = '100';
-  var IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
+  var editFormCloseButton = editPhotoForm.querySelector('.img-upload__cancel');
+  var commentInput = editPhotoForm.querySelector('.text__description');
+  var hashtagsInput = editPhotoForm.querySelector('.text__hashtags');
+  var reduceScaleButton = editPhotoForm.querySelector('.scale__control--smaller');
+  var improveScaleButton = editPhotoForm.querySelector('.scale__control--bigger');
+  var scaleValue = editPhotoForm.querySelector('.scale__control--value');
+  var previewImage = editPhotoForm.querySelector('.img-upload__preview img');
+  var effectLevelSlider = editPhotoForm.querySelector('.effect-level');
+  var effectLevelPin = effectLevelSlider.querySelector('.effect-level__pin');
+  var effectLevelValue = effectLevelSlider.querySelector('.effect-level__value');
+  var effectLevelDepth = effectLevelSlider.querySelector('.effect-level__depth');
+  var effectLevelLine = effectLevelSlider.querySelector('.effect-level__line');
+  var effectsList = editPhotoForm.querySelector('.effects__list');
+  var effectChooseRadios = effectsList.querySelectorAll('.effects__radio');
 
   var resetForm = function () {
     var originalRadio = getOriginalEffect(effectChooseRadios);
@@ -97,6 +100,15 @@
     }
   };
 
+  var setValueOfScale = function (stepValue, limitValue) {
+    if (!(scaleValue.value === limitValue)) {
+      var valueScale = Number(scaleValue.value.slice(0, scaleValue.value.length - 1)) * 0.01;
+      var newValue = valueScale + stepValue;
+      previewImage.style.transform = 'scale(' + newValue + ')';
+      scaleValue.value = newValue * 100 + '%';
+    }
+  };
+
   uploadFileField.addEventListener('change', function () {
     var imageFile = uploadFileField.files[0];
     var imageFileName = imageFile.name.toLowerCase();
@@ -139,22 +151,11 @@
   });
 
   reduceScaleButton.addEventListener('click', function () {
-    if (!(scaleValue.value === '25%')) {
-      var valueScale = Number(scaleValue.value.slice(0, scaleValue.value.length - 1)) * 0.01;
-      var newValue = valueScale - 0.25;
-      previewImage.style.transform = 'scale(' + newValue + ')';
-      scaleValue.value = newValue * 100 + '%';
-    }
-
+    setValueOfScale(REDUCE_SCALE_STEP, MIN_SCALE_VALUE);
   });
 
   improveScaleButton.addEventListener('click', function () {
-    if (!(scaleValue.value === '100%')) {
-      var valueScale = Number(scaleValue.value.slice(0, scaleValue.value.length - 1)) * 0.01;
-      var newValue = valueScale + 0.25;
-      previewImage.style.transform = 'scale(' + newValue + ')';
-      scaleValue.value = newValue * 100 + '%';
-    }
+    setValueOfScale(IMPROVE_SCALE_STEP, MAX_SCALE_VALUE);
   });
 
   effectLevelPin.addEventListener('mousedown', function (evt) {

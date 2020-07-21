@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var URL_TO_SEND = 'https://javascript.pages.academy/kekstagram';
   var loadPhotos = function (url, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -28,7 +29,7 @@
   };
 
   var savePhoto = function (data, onSuccess, onError) {
-    var URL = 'https://javascript.pages.academy/kekstagram';
+
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -46,7 +47,7 @@
       onError();
     });
 
-    xhr.open('POST', URL);
+    xhr.open('POST', URL_TO_SEND);
     xhr.send(data);
   };
 
